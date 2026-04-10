@@ -32,7 +32,7 @@ export function ReportsTab() {
 
   return (
     <motion.div variants={itemVariants} className="space-y-8">
-      {/* Header with download */}
+      {}
       <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/40 dark:border-slate-800/60 rounded-3xl p-8">
         <div className="flex justify-between items-center mb-6">
           <div>
@@ -49,7 +49,7 @@ export function ReportsTab() {
           </motion.div>
         </div>
 
-        {/* Audit Log Table */}
+        {}
         <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-900/50">
           <table className="w-full text-left text-sm text-slate-600 dark:text-slate-400">
             <thead className="bg-slate-100/50 dark:bg-slate-800/50 text-xs uppercase text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">

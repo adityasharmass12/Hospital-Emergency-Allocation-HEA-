@@ -10,17 +10,20 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { getBedSummary, admitPatient, getNearbyHospitals, BedSummary, NearbyHospital, sendChat, getPatientAppointments, Appointment } from '@/src/lib/api';
-import { useAuth } from '@/src/lib/auth';
 import { HospitalMap } from '../components/HospitalMap';
-import AppointmentBooking from '../components/AppointmentBooking';
 
-// ── Shared tokens ───────────────────────────────────────────────
+
+const mockUser = { full_name: 'Patient User', phone: '9876543210' };
+
+
 const BG   = 'linear-gradient(135deg,#0f172a 0%,#1e1b4b 40%,#0c1a2e 100%)';
 const CARD = { background:'rgba(255,255,255,0.05)', backdropFilter:'blur(20px) saturate(160%)', border:'1px solid rgba(255,255,255,0.09)', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.1)' };
 
 export default function PatientPortal() {
   const navigate = useNavigate();
-  const { logout, user, isLoading } = useAuth();
+  const user = mockUser;
+  const isLoading = false;
+  const logout = () => navigate('/login');
   const [isChatOpen, setIsChatOpen]  = useState(false);
   const [showAppointmentBooking, setShowAppointmentBooking] = useState(false);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -45,7 +48,7 @@ export default function PatientPortal() {
     if (!isLoading && (!user || user.role !== 'patient')) navigate('/login');
   }, [isLoading, user, navigate]);
 
-  // Fetch appointments when user is loaded
+
   useEffect(() => {
     if (user && user.phone) {
       getPatientAppointments(user.phone)
@@ -109,7 +112,7 @@ export default function PatientPortal() {
   return (
     <div className="min-h-screen font-sans relative overflow-hidden" style={{ background:BG }}>
 
-      {/* ── Background orbs ── */}
+      {}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[-15%] left-[-10%] w-[60vw] h-[60vw] rounded-full animate-ambient"
           style={{ background:'radial-gradient(circle,rgba(99,102,241,0.2) 0%,transparent 70%)',filter:'blur(80px)' }} />
@@ -119,7 +122,7 @@ export default function PatientPortal() {
           style={{ backgroundImage:'linear-gradient(rgba(255,255,255,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.1) 1px,transparent 1px)', backgroundSize:'60px 60px' }} />
       </div>
 
-      {/* ── Header ── */}
+      {}
       <header className="fixed top-0 left-0 right-0 z-50" style={{ background:'rgba(15,23,42,0.7)', backdropFilter:'blur(24px) saturate(160%)', borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
         <div className="max-w-[1600px] mx-auto px-6 h-18 py-3 flex items-center justify-between">
           <motion.div initial={{opacity:0,x:-20}} animate={{opacity:1,x:0}} className="flex items-center gap-3">
@@ -157,7 +160,7 @@ export default function PatientPortal() {
       <main className="relative z-10 pt-20">
         <div className="max-w-[1600px] mx-auto px-6 space-y-20 pb-24">
 
-          {/* ── Hero ── */}
+          {}
           <motion.section initial={{opacity:0,y:40}} animate={{opacity:1,y:0}} transition={{duration:0.7,ease:[0.22,1,0.36,1]}}
             className="text-center pt-24 pb-12 flex flex-col items-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-8"
@@ -190,7 +193,7 @@ export default function PatientPortal() {
             </div>
           </motion.section>
 
-          {/* ── Active Appointments ── */}
+          {}
           <motion.section id="appointment-section" initial={{opacity:0,y:40}} whileInView={{opacity:1,y:0}} viewport={{once:true}}>
             <div className="mb-8">
               <div>
@@ -222,7 +225,7 @@ export default function PatientPortal() {
                     className="rounded-2xl p-6 group cursor-pointer transition-all hover:scale-105"
                     style={{ ...CARD, border:`1px solid ${apt.status === 'confirmed' ? 'rgba(34,197,94,0.3)' : 'rgba(251,191,36,0.3)'}`, background: apt.status === 'confirmed' ? 'rgba(34,197,94,0.08)' : 'rgba(251,191,36,0.08)' }}
                   >
-                    {/* Status Badge */}
+                    {}
                     <div className="flex items-start justify-between mb-4">
                       <span className="text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full"
                         style={{
@@ -236,7 +239,7 @@ export default function PatientPortal() {
                       ) : null}
                     </div>
 
-                    {/* Appointment Details */}
+                    {}
                     <div className="space-y-3">
                       <div>
                         <p className="text-xs font-semibold mb-1" style={{ color:'rgba(148,163,184,0.7)' }}>DATE & TIME</p>
@@ -272,7 +275,7 @@ export default function PatientPortal() {
                       </div>
                     </div>
 
-                    {/* Confirmation ID */}
+                    {}
                     <div className="mt-4 pt-4 border-t border-white/10">
                       <p className="text-[10px] font-mono text-center" style={{ color:'rgba(148,163,184,0.5)' }}>ID: {apt.id}</p>
                     </div>
@@ -282,7 +285,7 @@ export default function PatientPortal() {
             )}
           </motion.section>
 
-          {/* ── Nearby Hospitals ── */}
+          {}
           <motion.section id="hospitals-section" initial={{opacity:0,y:40}} whileInView={{opacity:1,y:0}} viewport={{once:true}}>
             <div className="flex items-end justify-between mb-8">
               <div>
@@ -305,10 +308,10 @@ export default function PatientPortal() {
             </div>
 
             <div className="rounded-[2.5rem] overflow-hidden flex h-[800px]" style={{ ...CARD, boxShadow:'0 32px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)' }}>
-              {/* List Pane */}
+              {}
               <div className="w-[450px] flex flex-col" style={{ borderRight:'1px solid rgba(255,255,255,0.07)' }}>
                 <div className="p-6 space-y-5" style={{ background:'rgba(255,255,255,0.03)', borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
-                  {/* Search */}
+                  {}
                   <div className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4" style={{ color:'rgba(148,163,184,0.5)' }} />
                     <input type="text" placeholder="Search hospital or specialty..." value={searchQuery} onChange={e=>setSearchQuery(e.target.value)}
@@ -318,7 +321,7 @@ export default function PatientPortal() {
                       onBlur={e=>{e.target.style.borderColor='rgba(255,255,255,0.1)';}}
                     />
                   </div>
-                  {/* Radius */}
+                  {}
                   <div className="space-y-3">
                     <div className="flex justify-between items-center text-xs font-bold">
                       <span style={{ color:'rgba(148,163,184,0.7)' }}>SEARCH RADIUS</span>
@@ -332,7 +335,7 @@ export default function PatientPortal() {
                     </div>
                   </div>
                 </div>
-                {/* Cards */}
+                {}
                 <div className="flex-1 overflow-y-auto p-4 space-y-3">
                   {loadingNearby ? (
                     <div className="py-20 text-center space-y-4">
@@ -401,7 +404,7 @@ export default function PatientPortal() {
                 </div>
               </div>
 
-              {/* Map Pane */}
+              {}
               <div className="flex-1 relative" style={{ background:'rgba(0,0,0,0.3)' }}>
                 <HospitalMap hospitals={filteredHospitals} selectedId={selectedHospitalId} onSelect={setSelectedHospitalId} userLocation={userLocation} />
                 <button onClick={()=>setUserLocation(userLocation)}
@@ -413,7 +416,7 @@ export default function PatientPortal() {
             </div>
           </motion.section>
 
-          {/* ── Emergency Booking ── */}
+          {}
           <motion.section id="emergency-section" initial={{opacity:0,y:40}} whileInView={{opacity:1,y:0}} viewport={{once:true}}>
             <div className="max-w-xl mx-auto rounded-[2.5rem] overflow-hidden" style={{ ...CARD, border:'1px solid rgba(239,68,68,0.25)', boxShadow:'0 32px 80px rgba(0,0,0,0.4), 0 0 40px rgba(239,68,68,0.1), inset 0 1px 0 rgba(255,255,255,0.08)' }}>
               <div className="p-10" style={{ background:'linear-gradient(135deg,rgba(239,68,68,0.1),rgba(239,68,68,0.04))', borderBottom:'1px solid rgba(239,68,68,0.15)' }}>
@@ -436,7 +439,7 @@ export default function PatientPortal() {
                     <p className="text-sm" style={{ color:'rgba(148,163,184,0.7)' }}>{bookingResult?.message}</p>
                   </div>
 
-                  {/* Bed Information */}
+                  {}
                   {bookingResult?.bed && (
                     <div className="rounded-xl p-4" style={{ background:'rgba(99,102,241,0.1)', border:'1px solid rgba(99,102,241,0.3)' }}>
                       <h4 className="text-sm font-semibold mb-3 flex items-center gap-2" style={{ color:'rgba(165,180,252,1)' }}>
@@ -456,7 +459,7 @@ export default function PatientPortal() {
                     </div>
                   )}
 
-                  {/* Hospital Information */}
+                  {}
                   {bookingResult?.hospital && (
                     <div className="rounded-xl p-4" style={{ background:'rgba(16,185,129,0.1)', border:'1px solid rgba(16,185,129,0.3)' }}>
                       <h4 className="text-sm font-semibold mb-3 flex items-center gap-2" style={{ color:'rgba(52,211,153,1)' }}>
@@ -476,14 +479,14 @@ export default function PatientPortal() {
                     </div>
                   )}
 
-                  {/* Action Buttons */}
+                  {}
                   <div className="flex gap-3 pt-4">
                     {bookingResult?.hospital && (
                       <button
                         onClick={() => {
                           const lat = bookingResult.hospital.latitude;
                           const lng = bookingResult.hospital.longitude;
-                          const mapsUrl = `https://www.google.com/maps/search/${lat},${lng}`;
+                          const mapsUrl = `https:
                           window.open(mapsUrl, '_blank');
                         }}
                         className="flex-1 h-12 rounded-2xl font-semibold transition-all flex items-center justify-center gap-2 text-sm"
@@ -535,7 +538,7 @@ export default function PatientPortal() {
           </motion.section>
         </div>
 
-        {/* ── Chat FAB ── */}
+        {}
         <div className="fixed bottom-8 right-8 z-[100]">
           <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.95}}
             onClick={()=>setIsChatOpen(true)}
@@ -547,22 +550,14 @@ export default function PatientPortal() {
 
         <PatientChatSidebar isOpen={isChatOpen} onClose={()=>setIsChatOpen(false)} messages={chatMessages} input={chatInput} setInput={setChatInput} onSend={handleChatSend} />
 
-        {/* Appointment Booking Modal */}
-        <AnimatePresence>
-          {showAppointmentBooking && (
-            <AppointmentBooking 
-              onClose={() => setShowAppointmentBooking(false)}
-              userPhone={user?.phone || ''}
-              userName={user?.full_name || ''}
-            />
-          )}
-        </AnimatePresence>
+        {}
+        {}
       </main>
     </div>
   );
 }
 
-// ── Chat Sidebar ─────────────────────────────────────────────────
+
 function PatientChatSidebar({isOpen,onClose,messages,input,setInput,onSend}:any) {
   return (
     <AnimatePresence>

@@ -1,11 +1,8 @@
-/**
- * api.ts — HEA Backend API Service
- * Connects HEA frontend to Flask backend at localhost:5000
- */
 
-export const API_BASE = 'http://localhost:5000/api';
 
-// ── Types ──────────────────────────────────────────────────────────
+export const API_BASE = 'http:
+
+
 export interface BedSummary {
   ward: string;
   total: number;
@@ -75,9 +72,9 @@ export interface StaffMember {
   ward: string;
   shift: string;
   on_duty: number;
-  /** @deprecated alias kept for backward compat */
+  
   department?: string;
-  /** @deprecated alias kept for backward compat */
+  
   status?: string;
 }
 
@@ -172,7 +169,7 @@ export interface AppointmentStats {
   cancelled: number;
 }
 
-// ── API Functions ───────────────────────────────────────────────────
+
 
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const token = localStorage.getItem('hea_access_token');
@@ -248,7 +245,7 @@ export const sendChat = (query: string, context: 'admin' | 'patient' | 'staff' =
     body: JSON.stringify({ query, context, session_id }),
   });
 
-// ─── APPOINTMENTS (Non-Emergency Booking) ──────────────────────────
+
 export const bookAppointment = (data: {
   patient_name: string;
   patient_email?: string;

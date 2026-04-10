@@ -1,7 +1,3 @@
-"""
-alerts.py
-Checks hospital state and returns a list of active alerts.
-"""
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from db import get_db
@@ -11,7 +7,7 @@ def check_alerts():
     conn = get_db()
     alerts = []
 
-    # ── Overall occupancy ──────────────────────────────────────────
+
     row = conn.execute(
         "SELECT COUNT(*) AS total, SUM(CASE WHEN status='occupied' THEN 1 ELSE 0 END) AS occ FROM beds"
     ).fetchone()
@@ -22,7 +18,7 @@ def check_alerts():
         elif pct >= 80:
             alerts.append({"level": "warning",  "message": f"Hospital at {pct:.0f}% capacity — high demand"})
 
-    # ── ICU specifically ───────────────────────────────────────────
+
     icu = conn.execute(
         "SELECT COUNT(*) AS total, SUM(CASE WHEN status='occupied' THEN 1 ELSE 0 END) AS occ FROM beds WHERE ward='ICU'"
     ).fetchone()
@@ -34,7 +30,7 @@ def check_alerts():
         elif icu_pct >= 80:
             alerts.append({"level": "warning",  "message": f"ICU at {icu_pct:.0f}% — consider transfers"})
 
-    # ── Emergency ward ─────────────────────────────────────────────
+
     er = conn.execute(
         "SELECT COUNT(*) AS total, SUM(CASE WHEN status='occupied' THEN 1 ELSE 0 END) AS occ FROM beds WHERE ward='Emergency'"
     ).fetchone()
@@ -43,7 +39,6 @@ def check_alerts():
         if er_pct >= 90:
             alerts.append({"level": "critical", "message": f"Emergency ward at {er_pct:.0f}%!"})
 
-    # ── Resources ──────────────────────────────────────────────────
     resources = conn.execute("SELECT * FROM resources").fetchall()
     for r in resources:
         if r['total'] > 0:

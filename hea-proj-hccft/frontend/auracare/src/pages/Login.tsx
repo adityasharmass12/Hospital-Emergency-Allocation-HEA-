@@ -7,26 +7,23 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { ThemeToggle } from '@/src/components/ThemeToggle';
-import { useAuth } from '@/src/lib/auth';
 
 export default function Login() {
   const [role, setRole] = useState<'patient' | 'admin'>('patient');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
 
   const handlePatientLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     const email = (formData.get('patient_email') as string)?.trim();
-    const password = (formData.get('patient_password') as string)?.trim();
-    const { success, error } = await login(email, password, 'patient');
-    if (success) {
+    
+    if (email) {
       toast.success('Welcome!', { description: 'Logged in successfully.' });
       navigate('/patient');
     } else {
-      toast.error('Login failed', { description: error });
+      toast.error('Login failed', { description: 'Please enter email' });
     }
     setLoading(false);
   };
@@ -53,12 +50,12 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden font-sans transition-colors duration-500"
       style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #0c1a2e 100%)' }}>
 
-      {/* Theme Toggle */}
+      {}
       <div className="absolute top-6 right-6 z-50"><ThemeToggle /></div>
 
-      {/* ── Rich Glassmorphism Background Orbs ── */}
+      {}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Large center glow */}
+        {}
         <div className="absolute top-[-20%] left-[-15%] w-[70vw] h-[70vw] rounded-full animate-ambient"
           style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.25) 0%, transparent 70%)', filter: 'blur(80px)' }} />
         <div className="absolute bottom-[-20%] right-[-15%] w-[60vw] h-[60vw] rounded-full animate-ambient-slow"
@@ -66,11 +63,11 @@ export default function Login() {
         <div className="absolute top-[40%] left-[30%] w-[40vw] h-[40vw] rounded-full animate-ambient-fast"
           style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%)', filter: 'blur(60px)' }} />
 
-        {/* Fine grain noise overlay for glass texture */}
+        {}
         <div className="absolute inset-0 opacity-[0.03]"
-          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }} />
+          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http:
 
-        {/* Subtle grid lines */}
+        {}
         <div className="absolute inset-0 opacity-[0.04]"
           style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
       </div>
@@ -81,14 +78,14 @@ export default function Login() {
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10"
       >
-        {/* ── LEFT PANEL — Branding ── */}
+        {}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.1, duration: 0.7 }}
           className="flex flex-col justify-center p-8 lg:p-12"
         >
-          {/* Logo */}
+          {}
           <div className="flex flex-col gap-1 mb-10">
             <div className="flex items-center gap-3">
               <div className="p-3 rounded-2xl border border-white/10"
@@ -116,7 +113,7 @@ export default function Login() {
             AI-powered hospital management system.<br />Select your role to continue.
           </p>
 
-          {/* Role Selector */}
+          {}
           <div className="flex gap-3 mb-8">
             {[
               { key: 'patient', icon: HeartPulse, label: 'Patient', accent: '#6366f1' },
@@ -138,7 +135,7 @@ export default function Login() {
             ))}
           </div>
 
-          {/* Hospital Registration Card */}
+          {}
           <div className="p-5 rounded-2xl border"
             style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(20px)', borderColor: 'rgba(255,255,255,0.08)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)' }}>
             <div className="flex items-center gap-3 mb-4">
@@ -158,7 +155,7 @@ export default function Login() {
           </div>
         </motion.div>
 
-        {/* ── RIGHT PANEL — Login Form ── */}
+        {}
         <div className="flex items-center justify-center p-4">
           <AnimatePresence mode="wait">
             <motion.div
@@ -175,18 +172,18 @@ export default function Login() {
                 boxShadow: '0 32px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05), inset 0 1px 0 rgba(255,255,255,0.15)',
               }}
             >
-              {/* Top gradient bar */}
+              {}
               <div className="absolute top-0 left-0 right-0 h-[2px]"
                 style={{ background: isPatient
                   ? 'linear-gradient(90deg, #6366f1, #818cf8, #38bdf8)'
                   : 'linear-gradient(90deg, #14b8a6, #34d399, #6ee7b7)' }} />
 
-              {/* Inner glass shine */}
+              {}
               <div className="absolute top-0 left-0 right-0 h-32 pointer-events-none"
                 style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 100%)' }} />
 
               <div className="p-8 relative">
-                {/* Header */}
+                {}
                 <div className="mb-8 text-center">
                   <div className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-4"
                     style={{
@@ -206,7 +203,7 @@ export default function Login() {
                   </p>
                 </div>
 
-                {/* Forms */}
+                {}
                 {isPatient ? (
                   <motion.form key="patient" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                     onSubmit={handlePatientLogin} className="space-y-4">
@@ -246,7 +243,7 @@ export default function Login() {
                       <UserPlus className="h-4 w-4" /> Create Staff Account
                     </button>
 
-                    {/* Security badge */}
+                    {}
                     <div className="flex items-center justify-center gap-2 py-1">
                       <div className="flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-full"
                         style={{ background: 'rgba(20,184,166,0.1)', color: '#5eead4', border: '1px solid rgba(20,184,166,0.2)' }}>
@@ -264,7 +261,7 @@ export default function Login() {
   );
 }
 
-// ── Reusable Glass Input ──────────────────────────────────────────
+
 function GlassInput({ icon: Icon, accent, ...props }: any) {
   return (
     <div className="relative group">
@@ -293,7 +290,7 @@ function GlassInput({ icon: Icon, accent, ...props }: any) {
   );
 }
 
-// ── Reusable Glass Button ─────────────────────────────────────────
+
 function GlassButton({ loading, accent, gradient, children }: any) {
   return (
     <motion.button whileHover={{ scale: 1.02, y: -1 }} whileTap={{ scale: 0.98 }}

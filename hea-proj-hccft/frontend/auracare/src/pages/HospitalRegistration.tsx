@@ -11,8 +11,8 @@ import { Button } from '@/src/components/ui/button';
 import { ThemeToggle } from '@/src/components/ThemeToggle';
 import { toast } from 'sonner';
 
-// ── Backend call ────────────────────────────────────
-const API_BASE = 'http://localhost:5000/api';
+
+const API_BASE = 'http:
 
 async function registerHospital(data: Record<string, any>) {
   const res = await fetch(`${API_BASE}/hospitals/register`, {
@@ -33,7 +33,7 @@ export default function HospitalRegistration() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  // Form state
+
   const [formData, setFormData] = useState({
     hospital_name: '', location: '', contact: '',
     bed_capacity: '', icu_availability: '',
@@ -78,7 +78,7 @@ export default function HospitalRegistration() {
       toast.success('Registration submitted successfully!');
       setIsSubmitted(true);
     } catch (err: any) {
-      // Even if endpoint doesn't exist yet, show success for the UI flow
+
       toast.success('Registration received!', { description: 'Your application will be reviewed soon.' });
       setIsSubmitted(true);
     } finally {
@@ -136,7 +136,7 @@ export default function HospitalRegistration() {
 
       <main className="max-w-3xl mx-auto px-6 pt-32 pb-20 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-12">
-          {/* Stepper */}
+          {}
           <div className="flex items-center justify-between max-w-md mx-auto relative">
             <div className="absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 dark:bg-slate-800 -translate-y-1/2 z-0" />
             {steps.map(s => (
@@ -150,7 +150,7 @@ export default function HospitalRegistration() {
             ))}
           </div>
 
-          {/* Form */}
+          {}
           <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-white/40 dark:border-slate-800/60 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative">
             <form onSubmit={handleSubmit} className="space-y-10 relative z-10">
               <AnimatePresence mode="wait">
@@ -226,7 +226,7 @@ export default function HospitalRegistration() {
   );
 }
 
-// ── Reusable Components ─────────────────────────────
+
 function FloatingInput({ id, label, type = 'text', value, onChange, required, icon }: {
   id: string; label: string; type?: string; value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; required?: boolean;

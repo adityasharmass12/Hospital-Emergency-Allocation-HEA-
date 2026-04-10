@@ -23,7 +23,7 @@ export function AdmitModal({ isOpen, onClose, onAdmitted }: AdmitModalProps) {
     const priority = fd.get('priority') as string;
     const ward = fd.get('ward') as string;
 
-    // Validate all fields
+
     if (!name || !name.trim()) {
       toast.error('Patient name is required');
       return;
@@ -69,13 +69,13 @@ export function AdmitModal({ isOpen, onClose, onAdmitted }: AdmitModalProps) {
               </button>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-5">
-              {/* Patient Name */}
+              {}
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Patient Name *</label>
                 <input name="name" type="text" required placeholder="Enter patient name" className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
               </div>
 
-              {/* Age & Gender */}
+              {}
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Age *</label>
@@ -91,13 +91,13 @@ export function AdmitModal({ isOpen, onClose, onAdmitted }: AdmitModalProps) {
                 </div>
               </div>
 
-              {/* Condition */}
+              {}
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Medical Condition *</label>
                 <input name="condition" type="text" required placeholder="e.g., Fever, Chest Pain, Fracture" className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
               </div>
 
-              {/* Priority & Ward */}
+              {}
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Priority</label>
@@ -120,7 +120,7 @@ export function AdmitModal({ isOpen, onClose, onAdmitted }: AdmitModalProps) {
                 </div>
               </div>
 
-              {/* Buttons */}
+              {}
               <div className="flex gap-4 pt-4">
                 <Button type="button" variant="outline" onClick={onClose} className="flex-1 rounded-xl h-12 border-slate-200 dark:border-slate-700">Cancel</Button>
                 <Button type="submit" className="flex-1 rounded-xl h-12 bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20">Admit Patient</Button>

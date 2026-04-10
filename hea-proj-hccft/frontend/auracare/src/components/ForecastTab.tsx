@@ -26,7 +26,7 @@ export function ForecastTab() {
 
   return (
     <motion.div variants={itemVariants} className="space-y-8">
-      {/* Chart */}
+      {}
       <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/40 dark:border-slate-800/60 rounded-3xl p-8">
         <h3 className="text-2xl font-display font-semibold text-slate-800 dark:text-slate-100 mb-1 flex items-center gap-3">
           <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg"><TrendingUp className="h-6 w-6 text-blue-600 dark:text-blue-400" /></div>
@@ -54,7 +54,7 @@ export function ForecastTab() {
         )}
       </div>
 
-      {/* Surge Alerts */}
+      {}
       {forecast.filter(f => f.surge_alert).length > 0 && (
         <div className="bg-red-50/60 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 rounded-3xl p-6">
           <h4 className="font-semibold text-red-700 dark:text-red-400 flex items-center gap-2 mb-4">
@@ -74,7 +74,7 @@ export function ForecastTab() {
         </div>
       )}
 
-      {/* Day Cards */}
+      {}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {forecast.map((f, i) => (
           <motion.div key={i} whileHover={{ y: -4 }}

@@ -1,8 +1,3 @@
-"""
-ml/train_model.py
-Trains a Random Forest model on sample historical data and saves it as hea_model.pkl.
-Run once before starting the server: python ml/train_model.py
-"""
 import os, sys
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor

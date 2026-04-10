@@ -25,7 +25,7 @@ export function HospitalAnalyticsTab() {
 
   return (
     <div className="space-y-8">
-      {/* Network Stats Cards */}
+      {}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <motion.div variants={itemVariants} className="bg-indigo-600 rounded-3xl p-6 text-white shadow-lg shadow-indigo-600/20 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-8 -mr-12 -mt-12 bg-white/10 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-500" />
@@ -57,7 +57,7 @@ export function HospitalAnalyticsTab() {
         </motion.div>
       </div>
 
-      {/* Hospital List Table */}
+      {}
       <motion.div variants={itemVariants} className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/40 dark:border-slate-800/60 rounded-3xl p-8">
         <div className="flex justify-between items-center mb-6">
           <div>
@@ -121,7 +121,7 @@ export function HospitalAnalyticsTab() {
         </div>
       </motion.div>
 
-      {/* Analytics Visualization Placeholder (could add Recharts here if needed) */}
+      {}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <motion.div variants={itemVariants} className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/40 dark:border-slate-800/60 rounded-3xl p-8 h-[300px] flex flex-col items-center justify-center text-center">
           <PieChart className="h-12 w-12 text-slate-200 mb-4" />

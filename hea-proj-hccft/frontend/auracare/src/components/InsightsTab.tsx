@@ -30,7 +30,7 @@ export function InsightsTab() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      {/* AI Predictions Summary */}
+      {}
       <motion.div variants={itemVariants} className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/40 dark:border-slate-800/60 rounded-3xl p-8 min-h-[400px] flex flex-col">
         <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-3 mb-6">
           <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg"><BrainCircuit className="h-5 w-5 text-blue-600" /></div>
@@ -76,7 +76,7 @@ export function InsightsTab() {
         )}
       </motion.div>
 
-      {/* Recommended Actions */}
+      {}
       <motion.div variants={itemVariants} className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/40 dark:border-slate-800/60 rounded-3xl p-8 min-h-[400px] flex flex-col">
         <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-3 mb-6">
           <div className="p-2 bg-teal-100 dark:bg-teal-900/30 rounded-lg"><Sparkles className="h-5 w-5 text-teal-600" /></div>
@@ -116,7 +116,7 @@ export function InsightsTab() {
         )}
       </motion.div>
 
-      {/* Critical Alerts Panel */}
+      {}
       <motion.div variants={itemVariants} className="lg:col-span-2 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/40 dark:border-slate-800/60 rounded-3xl p-8">
         <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-3 mb-6">
           <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg"><Bell className="h-5 w-5 text-red-600" /></div>

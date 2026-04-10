@@ -33,7 +33,7 @@ export function BedsTab() {
         description: `Bed status updated successfully.`,
       });
       setSelectedBed(null);
-      fetchBeds(); // Refresh bed data
+      fetchBeds();
     } catch (e: any) {
       toast.error('Failed to update bed status', { description: e.message });
     } finally {
@@ -78,7 +78,7 @@ export function BedsTab() {
   return (
     <>
       <div className="space-y-8">
-        {/* Header with Legend + Refresh */}
+        {}
         <div className="flex justify-between items-center">
           <div className="flex gap-6 items-center text-sm">
             <span className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-emerald-400" /> Available</span>
@@ -156,7 +156,7 @@ export function BedsTab() {
         )}
       </div>
 
-      {/* ── Bed Status Modal ─────────────────────────────────── */}
+      {}
       <AnimatePresence>
         {selectedBed && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -171,7 +171,7 @@ export function BedsTab() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-white/20 dark:border-slate-800 overflow-hidden"
             >
-              {/* Header */}
+              {}
               <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                 <div>
                   <h3 className="text-lg font-display font-bold text-slate-800 dark:text-slate-100">
@@ -184,7 +184,7 @@ export function BedsTab() {
                 </button>
               </div>
 
-              {/* Current Status */}
+              {}
               <div className="px-6 pt-5 pb-3">
                 <p className="text-xs uppercase tracking-wider text-slate-400 font-bold mb-2">Current Status</p>
                 <Badge className={`text-sm px-4 py-1.5 ${statusColor(selectedBed.status)}`}>
@@ -192,7 +192,7 @@ export function BedsTab() {
                 </Badge>
               </div>
 
-              {/* Status Options */}
+              {}
               <div className="px-6 pb-6 pt-3 space-y-3">
                 <p className="text-xs uppercase tracking-wider text-slate-400 font-bold mb-2">Change To</p>
 

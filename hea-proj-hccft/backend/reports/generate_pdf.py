@@ -1,7 +1,3 @@
-"""
-reports/generate_pdf.py
-Generates a PDF hospital status report using ReportLab.
-"""
 import os, sys
 from datetime import datetime
 
@@ -24,9 +20,9 @@ def generate_report():
                             topMargin=2*cm, bottomMargin=2*cm)
 
     styles = getSampleStyleSheet()
-    BLUE   = colors.HexColor('#1a4480')
-    GREEN  = colors.HexColor('#2e7d32')
-    RED    = colors.HexColor('#c62828')
+    BLUE   = colors.HexColor('
+    GREEN  = colors.HexColor('
+    RED    = colors.HexColor('
 
     title_style = ParagraphStyle('Title2', parent=styles['Title'],
                                   textColor=BLUE, fontSize=20, spaceAfter=6)
@@ -36,7 +32,7 @@ def generate_report():
 
     conn = get_db()
 
-    # ── Data ──────────────────────────────────────────────────────
+
     beds     = conn.execute("SELECT * FROM beds ORDER BY ward, bed_number").fetchall()
     patients = conn.execute(
         "SELECT * FROM patients WHERE discharged_at IS NULL ORDER BY admitted_at DESC LIMIT 30"
@@ -55,13 +51,13 @@ def generate_report():
 
     story = []
 
-    # Title
+
     story.append(Paragraph("HEA — Hospital Emergency Allocation", title_style))
     story.append(Paragraph(f"Report generated: {datetime.now().strftime('%d %b %Y, %I:%M %p')}",
                             ParagraphStyle('Sub', parent=body_style, textColor=colors.grey, fontSize=9)))
     story.append(Spacer(1, 16))
 
-    # Summary
+
     story.append(Paragraph("Summary", h2_style))
     summary_data = [
         ["Metric", "Value"],
@@ -77,15 +73,15 @@ def generate_report():
         ('BACKGROUND',  (0,0), (-1,0), BLUE),
         ('TEXTCOLOR',   (0,0), (-1,0), colors.white),
         ('FONTNAME',    (0,0), (-1,0), 'Helvetica-Bold'),
-        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor('#f5f5f5')]),
-        ('GRID',        (0,0), (-1,-1), 0.4, colors.HexColor('#e0e0e0')),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor('
+        ('GRID',        (0,0), (-1,-1), 0.4, colors.HexColor('
         ('FONTSIZE',    (0,0), (-1,-1), 10),
         ('PADDING',     (0,0), (-1,-1), 6),
     ]))
     story.append(t)
     story.append(Spacer(1, 14))
 
-    # Ward occupancy
+
     story.append(Paragraph("Bed Occupancy by Ward", h2_style))
     ward_data = [["Ward", "Total", "Occupied", "Available", "Occupancy %"]]
     wards = {}
@@ -103,15 +99,15 @@ def generate_report():
         ('BACKGROUND',  (0,0), (-1,0), BLUE),
         ('TEXTCOLOR',   (0,0), (-1,0), colors.white),
         ('FONTNAME',    (0,0), (-1,0), 'Helvetica-Bold'),
-        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor('#f5f5f5')]),
-        ('GRID',        (0,0), (-1,-1), 0.4, colors.HexColor('#e0e0e0')),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor('
+        ('GRID',        (0,0), (-1,-1), 0.4, colors.HexColor('
         ('FONTSIZE',    (0,0), (-1,-1), 10),
         ('PADDING',     (0,0), (-1,-1), 6),
     ]))
     story.append(wt)
     story.append(Spacer(1, 14))
 
-    # Resources
+
     story.append(Paragraph("Resource Availability", h2_style))
     res_data = [["Resource", "Category", "Total", "Available", "In Use"]]
     for r in resources:
@@ -122,15 +118,15 @@ def generate_report():
         ('BACKGROUND',  (0,0), (-1,0), BLUE),
         ('TEXTCOLOR',   (0,0), (-1,0), colors.white),
         ('FONTNAME',    (0,0), (-1,0), 'Helvetica-Bold'),
-        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor('#f5f5f5')]),
-        ('GRID',        (0,0), (-1,-1), 0.4, colors.HexColor('#e0e0e0')),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor('
+        ('GRID',        (0,0), (-1,-1), 0.4, colors.HexColor('
         ('FONTSIZE',    (0,0), (-1,-1), 10),
         ('PADDING',     (0,0), (-1,-1), 6),
     ]))
     story.append(rt)
     story.append(Spacer(1, 14))
 
-    # Recent audit log
+
     story.append(Paragraph("Recent Activity (last 20 entries)", h2_style))
     audit_data = [["Timestamp", "Action", "Details"]]
     for a in audit:
@@ -141,8 +137,8 @@ def generate_report():
         ('BACKGROUND',  (0,0), (-1,0), BLUE),
         ('TEXTCOLOR',   (0,0), (-1,0), colors.white),
         ('FONTNAME',    (0,0), (-1,0), 'Helvetica-Bold'),
-        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor('#f5f5f5')]),
-        ('GRID',        (0,0), (-1,-1), 0.4, colors.HexColor('#e0e0e0')),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor('
+        ('GRID',        (0,0), (-1,-1), 0.4, colors.HexColor('
         ('FONTSIZE',    (0,0), (-1,-1), 9),
         ('PADDING',     (0,0), (-1,-1), 5),
         ('WORDWRAP',    (2,1), (2,-1), True),

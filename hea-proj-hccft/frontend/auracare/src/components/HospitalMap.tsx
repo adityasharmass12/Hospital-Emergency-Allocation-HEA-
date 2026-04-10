@@ -23,7 +23,7 @@ export function HospitalMap({ hospitals, selectedId, onSelect, userLocation }: H
   const markersRef = useRef<any[]>([]);
   const [leafletLoaded, setLeafletLoaded] = useState(false);
 
-  // Dynamically load Leaflet
+
   useEffect(() => {
     if (window.L) {
       setLeafletLoaded(true);
@@ -32,17 +32,17 @@ export function HospitalMap({ hospitals, selectedId, onSelect, userLocation }: H
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    link.href = 'https:
     document.head.appendChild(link);
 
     const script = document.createElement('script');
-    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    script.src = 'https:
     script.async = true;
     script.onload = () => setLeafletLoaded(true);
     document.head.appendChild(script);
   }, []);
 
-  // Initialize Map
+
   useEffect(() => {
     if (!leafletLoaded || !mapRef.current || !window.L) return;
 
@@ -53,7 +53,7 @@ export function HospitalMap({ hospitals, selectedId, onSelect, userLocation }: H
         attributionControl: false
       }).setView(center, 13);
 
-      window.L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      window.L.tileLayer('https:
         maxZoom: 19,
       }).addTo(leafletMap.current);
 
@@ -61,15 +61,15 @@ export function HospitalMap({ hospitals, selectedId, onSelect, userLocation }: H
     }
   }, [leafletLoaded, userLocation]);
 
-  // Update Markers
+
   useEffect(() => {
     if (!leafletMap.current || !window.L) return;
 
-    // Clear old markers
+
     markersRef.current.forEach(m => m.remove());
     markersRef.current = [];
 
-    // User Marker
+
     if (userLocation) {
       const userMarker = window.L.circleMarker([userLocation.lat, userLocation.lng], {
         radius: 8,
@@ -83,7 +83,7 @@ export function HospitalMap({ hospitals, selectedId, onSelect, userLocation }: H
       markersRef.current.push(userMarker);
     }
 
-    // Hospital Markers
+
     hospitals.forEach(h => {
       const isSelected = h.id === selectedId;
       const marker = window.L.marker([h.latitude, h.longitude], {
@@ -103,7 +103,7 @@ export function HospitalMap({ hospitals, selectedId, onSelect, userLocation }: H
       }
     });
 
-    // Auto-fit if desired
+
     if (hospitals.length > 0 && !selectedId) {
       const group = new window.L.featureGroup(markersRef.current);
       leafletMap.current.fitBounds(group.getBounds(), { padding: [50, 50] });
@@ -115,7 +115,7 @@ export function HospitalMap({ hospitals, selectedId, onSelect, userLocation }: H
     <div className="w-full h-full relative border-l border-slate-200 dark:border-slate-800 shadow-inner overflow-hidden">
       <div ref={mapRef} className="w-full h-full z-0" />
       
-      {/* Floating Info UI */}
+      {}
       <div className="absolute bottom-6 left-6 right-6 z-[1000]">
         <AnimatePresence>
           {selectedId && (

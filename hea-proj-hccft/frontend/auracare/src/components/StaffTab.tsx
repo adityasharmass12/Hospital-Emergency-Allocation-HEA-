@@ -80,7 +80,7 @@ export function StaffTab() {
             <p className="text-sm text-slate-500 dark:text-slate-400">Manage hospital personnel and bed allocation</p>
           </div>
           
-          {/* Bed Stats Mini Overview */}
+          {}
           <div className="flex gap-4 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
             {bedSummary.map(w => (
               <div key={w.ward} className="min-w-[140px] bg-white/40 dark:bg-slate-800/40 p-3 rounded-2xl border border-white/40 dark:border-slate-800 shadow-sm">
@@ -153,7 +153,7 @@ export function StaffTab() {
         )}
       </motion.div>
 
-      {/* Staff Chat FAB */}
+      {}
       <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.95}}
         onClick={()=>setIsChatOpen(true)}
         className="fixed bottom-8 right-8 w-14 h-14 rounded-2xl flex items-center justify-center z-50"
@@ -161,7 +161,7 @@ export function StaffTab() {
         <MessageSquare className="h-6 w-6 text-white" />
       </motion.button>
 
-      {/* Staff Chat Sidebar */}
+      {}
       <StaffChatSidebar isOpen={isChatOpen} onClose={()=>setIsChatOpen(false)} messages={chatMessages} input={chatInput} setInput={setChatInput} onSend={handleChatSend} />
     </>
   );

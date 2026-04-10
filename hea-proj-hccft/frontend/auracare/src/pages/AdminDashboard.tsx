@@ -19,17 +19,20 @@ import { ReportsTab } from '@/src/components/ReportsTab';
 import { StaffTab } from '@/src/components/StaffTab';
 import { InsightsTab } from '@/src/components/InsightsTab';
 import { HospitalAnalyticsTab } from '@/src/components/HospitalAnalyticsTab';
-import { useAuth } from '@/src/lib/auth';
 
-// ── Shared dark glass style tokens ─────────────────────────────
+
+const mockUser = { full_name: 'Admin User' };
+
+
 const BG = 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #0c1a2e 100%)';
 const GLASS_SIDEBAR = { background:'rgba(255,255,255,0.04)', backdropFilter:'blur(32px) saturate(160%)', borderRight:'1px solid rgba(255,255,255,0.08)' };
 const GLASS_HEADER  = { background:'rgba(255,255,255,0.04)', backdropFilter:'blur(24px) saturate(160%)', borderBottom:'1px solid rgba(255,255,255,0.08)' };
 const GLASS_CARD    = { background:'rgba(255,255,255,0.05)', backdropFilter:'blur(20px)', border:'1px solid rgba(255,255,255,0.09)', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.1)' };
 
 export default function AdminDashboard() {
-  const { logout, user, isLoading } = useAuth();
   const navigate = useNavigate();
+  const user = mockUser;
+  const logout = () => navigate('/login');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isAdminChatOpen, setIsAdminChatOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -40,8 +43,8 @@ export default function AdminDashboard() {
   const [alerts, setAlerts] = useState<Alert[]>([]);
 
   useEffect(() => {
-    // Allow access without authentication for development
-    // if (!isLoading && (!user || user.role === 'patient')) navigate('/login');
+
+
   }, [isLoading, user, navigate]);
 
   useEffect(() => {
@@ -79,7 +82,7 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen flex overflow-hidden font-sans relative" style={{ background: BG }}>
 
-      {/* ── Ambient orbs ── */}
+      {}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-[55vw] h-[55vw] rounded-full animate-ambient"
           style={{ background:'radial-gradient(circle,rgba(99,102,241,0.2) 0%,transparent 70%)', filter:'blur(80px)' }} />
@@ -89,7 +92,7 @@ export default function AdminDashboard() {
           style={{ backgroundImage:'linear-gradient(rgba(255,255,255,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.1) 1px,transparent 1px)', backgroundSize:'60px 60px' }} />
       </div>
 
-      {/* ── Sidebar ── */}
+      {}
       <motion.aside
         initial={false}
         animate={{ width: isSidebarOpen ? 256 : 76 }}
@@ -97,7 +100,7 @@ export default function AdminDashboard() {
         className="flex flex-col z-20 relative shrink-0"
         style={GLASS_SIDEBAR}
       >
-        {/* Logo */}
+        {}
         <div className="h-16 flex items-center px-4 shrink-0" style={{ borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
           <AnimatePresence mode="wait">
             {isSidebarOpen ? (
@@ -121,7 +124,7 @@ export default function AdminDashboard() {
           </AnimatePresence>
         </div>
 
-        {/* Nav */}
+        {}
         <nav className="flex-1 py-4 px-2 space-y-1 overflow-y-auto">
           {navItems.map(item => {
             const active = activeTab === item.id;
@@ -142,7 +145,7 @@ export default function AdminDashboard() {
           })}
         </nav>
 
-        {/* Logout */}
+        {}
         <div className="p-3 shrink-0" style={{ borderTop:'1px solid rgba(255,255,255,0.07)' }}>
           <button
             onClick={() => { logout(); navigate('/login'); }}
@@ -157,10 +160,10 @@ export default function AdminDashboard() {
         </div>
       </motion.aside>
 
-      {/* ── Main ── */}
+      {}
       <main className="flex-1 flex flex-col h-screen overflow-hidden relative z-10">
 
-        {/* Header */}
+        {}
         <header className="h-16 flex items-center justify-between px-6 shrink-0" style={GLASS_HEADER}>
           <div className="flex items-center gap-3">
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -197,7 +200,7 @@ export default function AdminDashboard() {
           </div>
         </header>
 
-        {/* Content */}
+        {}
         <div className="flex-1 overflow-y-auto p-6">
           <AnimatePresence mode="wait">
             <motion.div key={activeTab} variants={cv} initial="hidden" animate="visible" exit={{ opacity:0 }}
@@ -205,7 +208,7 @@ export default function AdminDashboard() {
 
               {activeTab === 'dashboard' && (
                 <>
-                  {/* Stat Cards */}
+                  {}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                     {[
                       { title:'Total Beds',      value:totalBeds||'--',          icon:Bed,           accent:'#6366f1', glow:'rgba(99,102,241,0.25)'  },
@@ -229,7 +232,7 @@ export default function AdminDashboard() {
                     ))}
                   </div>
 
-                  {/* Alerts */}
+                  {}
                   {alerts.length > 0 && (
                     <motion.div variants={iv} className="space-y-2">
                       {alerts.map((a, i) => (
@@ -241,7 +244,7 @@ export default function AdminDashboard() {
                     </motion.div>
                   )}
 
-                  {/* Resources */}
+                  {}
                   {dashData?.resources && dashData.resources.length > 0 && (
                     <motion.div variants={iv} className="rounded-2xl p-6" style={GLASS_CARD}>
                       <h3 className="text-base font-semibold mb-4" style={{ color:'rgba(255,255,255,0.9)' }}>Resource Availability</h3>
@@ -315,7 +318,7 @@ export default function AdminDashboard() {
   );
 }
 
-// ── Admin Chat Sidebar ───────────────────────────────────────────
+
 function AdminChatSidebar({ isOpen, onClose, dashData }: { isOpen:boolean; onClose:()=>void; dashData:DashboardData|null }) {
   const [messages, setMessages] = useState([
     { role:'bot', text:'Welcome! I can help with hospital analytics, staff scheduling, and resource optimization.' }

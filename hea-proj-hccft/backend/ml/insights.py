@@ -1,7 +1,3 @@
-"""
-ml/insights.py
-Generates AI-driven insights based on real-time hospital data.
-"""
 import sqlite3
 import os
 
@@ -10,7 +6,7 @@ def generate_insights(db_path):
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
 
-    # Get data for insights
+
     beds = c.execute("SELECT status, ward FROM beds").fetchall()
     patients = c.execute("SELECT priority, admitted_at FROM patients").fetchall()
     resources = c.execute("SELECT name, total, available FROM resources").fetchall()
@@ -24,7 +20,7 @@ def generate_insights(db_path):
 
     insights = []
 
-    # 1. Occupancy Insight
+
     if occupancy_rate > 85:
         insights.append({
             "type": "critical",
@@ -47,7 +43,7 @@ def generate_insights(db_path):
             "action": "None"
         })
 
-    # 2. Resource Insight
+
     if low_resources:
         insights.append({
             "type": "warning",
@@ -56,7 +52,7 @@ def generate_insights(db_path):
             "action": "Restock Supply"
         })
 
-    # 3. Patient Flow Insight
+
     if urgent_patients > 5:
         insights.append({
             "type": "critical",
@@ -65,7 +61,7 @@ def generate_insights(db_path):
             "action": "Redeploy Staff"
         })
 
-    # 4. Efficiency Insight
+
     insights.append({
         "type": "info",
         "title": "Staff Optimization",
