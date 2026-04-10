@@ -16,14 +16,31 @@ export function AdmitModal({ isOpen, onClose, onAdmitted }: AdmitModalProps) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget as HTMLFormElement);
     const name = fd.get('name') as string;
-    const age = Number(fd.get('age'));
+    const ageStr = fd.get('age') as string;
+    const age = ageStr ? Number(ageStr) : NaN;
     const gender = fd.get('gender') as string;
     const condition = fd.get('condition') as string;
     const priority = fd.get('priority') as string;
     const ward = fd.get('ward') as string;
 
-    if (!name || !age || !condition) {
-      toast.error('Please fill all required fields');
+    // Validate all fields
+    if (!name || !name.trim()) {
+      toast.error('Patient name is required');
+      return;
+    }
+    
+    if (!ageStr || isNaN(age) || age <= 0 || age > 150) {
+      toast.error('Please enter a valid age (1-150 years)');
+      return;
+    }
+    
+    if (!gender) {
+      toast.error('Gender is required');
+      return;
+    }
+    
+    if (!condition || !condition.trim()) {
+      toast.error('Medical condition is required');
       return;
     }
 
@@ -52,40 +69,58 @@ export function AdmitModal({ isOpen, onClose, onAdmitted }: AdmitModalProps) {
               </button>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-5">
-              <div className="relative z-0 w-full">
-                <input name="name" type="text" required className="block py-3 px-0 w-full text-base text-slate-900 dark:text-slate-100 bg-transparent border-0 border-b-2 border-slate-200 dark:border-slate-700 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer" placeholder=" " />
-                <label className="peer-focus:font-medium absolute text-base text-slate-500 dark:text-slate-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Patient Name *</label>
+              {/* Patient Name */}
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Patient Name *</label>
+                <input name="name" type="text" required placeholder="Enter patient name" className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
               </div>
+
+              {/* Age & Gender */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="relative z-0 w-full">
-                  <input name="age" type="number" min="0" max="150" required className="block py-3 px-0 w-full text-base text-slate-900 dark:text-slate-100 bg-transparent border-0 border-b-2 border-slate-200 dark:border-slate-700 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer" placeholder=" " />
-                  <label className="peer-focus:font-medium absolute text-base text-slate-500 dark:text-slate-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Age *</label>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Age *</label>
+                  <input name="age" type="number" min="1" max="150" required placeholder="Enter age" className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
                 </div>
-                <select name="gender" defaultValue="male" className="block py-3 px-0 w-full text-base text-slate-900 dark:text-slate-100 bg-transparent border-0 border-b-2 border-slate-200 dark:border-slate-700 focus:outline-none focus:border-blue-500">
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </select>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Gender *</label>
+                  <select name="gender" defaultValue="male" className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
               </div>
-              <div className="relative z-0 w-full">
-                <input name="condition" type="text" required className="block py-3 px-0 w-full text-base text-slate-900 dark:text-slate-100 bg-transparent border-0 border-b-2 border-slate-200 dark:border-slate-700 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer" placeholder=" " />
-                <label className="peer-focus:font-medium absolute text-base text-slate-500 dark:text-slate-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Condition *</label>
+
+              {/* Condition */}
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Medical Condition *</label>
+                <input name="condition" type="text" required placeholder="e.g., Fever, Chest Pain, Fracture" className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
               </div>
+
+              {/* Priority & Ward */}
               <div className="grid grid-cols-2 gap-4">
-                <select name="priority" defaultValue="normal" className="block py-3 px-0 w-full text-base text-slate-900 dark:text-slate-100 bg-transparent border-0 border-b-2 border-slate-200 dark:border-slate-700 focus:outline-none focus:border-blue-500">
-                  <option value="normal">Normal</option>
-                  <option value="urgent">Urgent</option>
-                  <option value="critical">Critical</option>
-                </select>
-                <select name="ward" defaultValue="" className="block py-3 px-0 w-full text-base text-slate-900 dark:text-slate-100 bg-transparent border-0 border-b-2 border-slate-200 dark:border-slate-700 focus:outline-none focus:border-blue-500">
-                  <option value="">Auto-assign ward</option>
-                  <option value="General">General</option>
-                  <option value="ICU">ICU</option>
-                  <option value="Emergency">Emergency</option>
-                  <option value="Pediatrics">Pediatrics</option>
-                  <option value="Maternity">Maternity</option>
-                </select>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Priority</label>
+                  <select name="priority" defaultValue="normal" className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="normal">Normal</option>
+                    <option value="urgent">Urgent</option>
+                    <option value="critical">Critical</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Ward</label>
+                  <select name="ward" defaultValue="" className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Auto-assign (by priority)</option>
+                    <option value="General">General</option>
+                    <option value="ICU">ICU</option>
+                    <option value="Emergency">Emergency</option>
+                    <option value="Pediatric">Pediatric</option>
+                    <option value="Maternity">Maternity</option>
+                  </select>
+                </div>
               </div>
+
+              {/* Buttons */}
               <div className="flex gap-4 pt-4">
                 <Button type="button" variant="outline" onClick={onClose} className="flex-1 rounded-xl h-12 border-slate-200 dark:border-slate-700">Cancel</Button>
                 <Button type="submit" className="flex-1 rounded-xl h-12 bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20">Admit Patient</Button>

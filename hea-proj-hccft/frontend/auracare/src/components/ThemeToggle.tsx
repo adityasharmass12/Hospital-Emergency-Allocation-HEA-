@@ -2,23 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+const THEME_KEY = 'hea_theme';
+
 export function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    const stored = localStorage.getItem(THEME_KEY);
+    if (stored) return stored === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
 
   useEffect(() => {
-    const isDarkMode = document.documentElement.classList.contains('dark');
-    setIsDark(isDarkMode);
-  }, []);
+    const root = document.documentElement;
+    if (isDark) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+  }, [isDark]);
 
   const toggleTheme = () => {
-    const root = document.documentElement;
-    if (root.classList.contains('dark')) {
-      root.classList.remove('dark');
-      setIsDark(false);
-    } else {
-      root.classList.add('dark');
-      setIsDark(true);
-    }
+    setIsDark(prev => !prev);
   };
 
   return (

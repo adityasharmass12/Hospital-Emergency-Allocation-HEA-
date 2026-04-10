@@ -1,0 +1,13 @@
+{
+  "pythonVersion": "3.13",
+  "pythonPlatform": "Windows",
+  "pythonPath": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+  "include": ["backend"],
+  "extraPaths": [
+    "backend",
+    "backend/models",
+    "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages"
+  ],
+  "reportMissingImports": "off",
+  "reportMissingModuleSource": "none"
+}

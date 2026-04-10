@@ -72,9 +72,13 @@ export interface StaffMember {
   id: number;
   name: string;
   role: string;
-  department: string;
-  status: string;
+  ward: string;
   shift: string;
+  on_duty: number;
+  /** @deprecated alias kept for backward compat */
+  department?: string;
+  /** @deprecated alias kept for backward compat */
+  status?: string;
 }
 
 export interface AuditLog {
@@ -125,12 +129,61 @@ export interface Insight {
   action: string;
 }
 
+export interface Appointment {
+  id: number;
+  patient_name: string;
+  patient_email?: string;
+  patient_phone: string;
+  patient_age: number;
+  patient_gender: string;
+  patient_address?: string;
+  patient_city?: string;
+  patient_state?: string;
+  patient_zip?: string;
+  medical_history?: string;
+  allergies?: string;
+  current_medications?: string;
+  appointment_date: string;
+  appointment_time: string;
+  appointment_type: string;
+  specialty: string;
+  reason_for_visit: string;
+  insurance_provider?: string;
+  insurance_id?: string;
+  emergency_contact_name?: string;
+  emergency_contact_phone?: string;
+  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+  booked_at: string;
+  confirmed_at?: string;
+  completed_at?: string;
+  notes?: string;
+  hospital_id?: number;
+  hospital_name?: string;
+  availability_status?: string;
+  available_at_requested_time?: boolean;
+  suggested_time?: string;
+}
+
+export interface AppointmentStats {
+  total_appointments: number;
+  pending: number;
+  confirmed: number;
+  completed: number;
+  cancelled: number;
+}
+
 // ── API Functions ───────────────────────────────────────────────────
 
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
+  const token = localStorage.getItem('hea_access_token');
+  const headers: Record<string, string> = { 
+    'Content-Type': 'application/json',
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+  };
+
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
     ...options,
+    headers: { ...headers, ...options?.headers },
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: 'Unknown error' }));
@@ -150,13 +203,26 @@ export const getInsights = () => apiFetch<Insight[]>('/insights');
 export const getStaff = () => apiFetch<StaffMember[]>('/staff');
 export const getAuditLog = () => apiFetch<AuditLog[]>('/reports/audit');
 export const checkHealth = () => apiFetch<{ status: string }>('/health');
-export const getNearbyHospitals = () => apiFetch<NearbyHospital[]>('/nearby-hospitals');
+export const getNearbyHospitals = (params?: {
+  lat?: number;
+  lng?: number;
+  radius_km?: number;
+}) => {
+  const qs = params
+    ? '?' + new URLSearchParams(
+        Object.entries({lat: params.lat, lng: params.lng, radius_km: params.radius_km})
+          .filter(([, v]) => v != null)
+          .map(([k, v]) => [k, String(v)])
+      ).toString()
+    : '';
+  return apiFetch<NearbyHospital[]>(`/nearby-hospitals${qs}`);
+};
 export const getRegisteredHospitals = () => apiFetch<RegisteredHospital[]>('/hospitals');
 
 export const admitPatient = (data: {
   name: string; age: number; gender: string;
   condition: string; priority: string; ward?: string;
-}) => apiFetch<{ message: string; bed?: Bed }>('/patients/admit', {
+}) => apiFetch<{ message: string; bed?: Bed; hospital?: NearbyHospital }>('/patients/admit', {
   method: 'POST',
   body: JSON.stringify(data),
 });
@@ -168,6 +234,75 @@ export const updateBedStatus = (id: number, status: string) =>
   apiFetch<{ message: string }>(`/beds/${id}/status`, {
     method: 'PUT',
     body: JSON.stringify({ status }),
+  });
+
+export const updateWardCapacity = (ward: string, total: number) =>
+  apiFetch<{ message: string }>('/wards/capacity', {
+    method: 'POST',
+    body: JSON.stringify({ ward, total }),
+  });
+
+export const sendChat = (query: string, context: 'admin' | 'patient' | 'staff' = 'admin', session_id: string = 'default') =>
+  apiFetch<{ response: string }>('/chat', {
+    method: 'POST',
+    body: JSON.stringify({ query, context, session_id }),
+  });
+
+// ─── APPOINTMENTS (Non-Emergency Booking) ──────────────────────────
+export const bookAppointment = (data: {
+  patient_name: string;
+  patient_email?: string;
+  patient_phone: string;
+  patient_age: number;
+  patient_gender: string;
+  patient_address?: string;
+  patient_city?: string;
+  patient_state?: string;
+  patient_zip?: string;
+  medical_history?: string;
+  allergies?: string;
+  current_medications?: string;
+  appointment_date: string;
+  appointment_time: string;
+  appointment_type: string;
+  specialty: string;
+  reason_for_visit: string;
+  insurance_provider?: string;
+  insurance_id?: string;
+  emergency_contact_name?: string;
+  emergency_contact_phone?: string;
+}) => apiFetch<{ message: string; appointment_id: number; appointment: Appointment; hospital_info: { hospital_name: string; hospital_id: number; is_available: boolean; suggested_time?: string } }>('/appointments', {
+  method: 'POST',
+  body: JSON.stringify(data),
+});
+
+export const getAppointments = (status?: string) => {
+  const qs = status ? `?status=${status}` : '';
+  return apiFetch<Appointment[]>(`/appointments${qs}`);
+};
+
+export const getPatientAppointments = (phone: string) =>
+  apiFetch<Appointment[]>(`/appointments/patient/${phone}`);
+
+export const getAppointmentById = (id: number) =>
+  apiFetch<Appointment>(`/appointments/${id}`);
+
+export const getAppointmentStats = () =>
+  apiFetch<AppointmentStats>('/appointments/stats');
+
+export const confirmAppointment = (id: number) =>
+  apiFetch<{ message: string }>(`/appointments/${id}/confirm`, { method: 'POST' });
+
+export const cancelAppointment = (id: number, reason?: string) =>
+  apiFetch<{ message: string }>(`/appointments/${id}/cancel`, {
+    method: 'POST',
+    body: JSON.stringify({ reason: reason || '' }),
+  });
+
+export const completeAppointment = (id: number, notes?: string) =>
+  apiFetch<{ message: string }>(`/appointments/${id}/complete`, {
+    method: 'POST',
+    body: JSON.stringify({ notes: notes || '' }),
   });
 
 export const downloadPDFReport = async () => {

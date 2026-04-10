@@ -1,0 +1,15 @@
+[tool.pyrefly]
+python_version = "3.13"
+python_platform = "Windows"
+search_path = [
+  ".",
+  "models"
+]
+
+[tool.pyright]
+pythonVersion = "3.13"
+pythonPlatform = "Windows"
+pythonPath = "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python313\\python.exe"
+extraPaths = [".", "models"]
+reportMissingImports = "warning"
+reportMissingModuleSource = "none"

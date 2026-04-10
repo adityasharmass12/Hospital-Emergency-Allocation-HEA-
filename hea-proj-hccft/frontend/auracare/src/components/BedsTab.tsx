@@ -4,13 +4,15 @@ import { Bed as BedIcon, X, CheckCircle, XCircle, Wrench, RefreshCw } from 'luci
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { toast } from 'sonner';
-import { getBeds, updateBedStatus, Bed } from '../lib/api';
+import { getBeds, updateBedStatus, Bed, updateWardCapacity } from '../lib/api';
 
 export function BedsTab() {
   const [beds, setBeds] = useState<Bed[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedBed, setSelectedBed] = useState<Bed | null>(null);
   const [updating, setUpdating] = useState(false);
+  const [manageCapacityWard, setManageCapacityWard] = useState<string | null>(null);
+  const [newCapacity, setNewCapacity] = useState<number>(0);
 
   const fetchBeds = () => {
     setLoading(true);
@@ -34,6 +36,22 @@ export function BedsTab() {
       fetchBeds(); // Refresh bed data
     } catch (e: any) {
       toast.error('Failed to update bed status', { description: e.message });
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+
+  const handleUpdateCapacity = async (ward: string) => {
+    if (newCapacity <= 0) { toast.error('Invalid capacity'); return; }
+    setUpdating(true);
+    try {
+      const res = await updateWardCapacity(ward, newCapacity);
+      toast.success(res.message);
+      setManageCapacityWard(null);
+      fetchBeds();
+    } catch (e: any) {
+      toast.error('Failed to update capacity', { description: e.message });
     } finally {
       setUpdating(false);
     }
@@ -94,7 +112,27 @@ export function BedsTab() {
                   <div className="flex items-center gap-3 text-xs">
                     <Badge variant="outline" className="bg-emerald-50 text-emerald-600 border-emerald-200">{avail} available</Badge>
                     <Badge variant="outline" className="bg-red-50 text-red-600 border-red-200">{occ} occupied</Badge>
-                    <span className="text-slate-400">{wardBeds.length} total</span>
+                    
+                    {manageCapacityWard === ward ? (
+                      <div className="flex items-center gap-2">
+                        <input 
+                          type="number" 
+                          value={newCapacity} 
+                          onChange={(e) => setNewCapacity(parseInt(e.target.value))}
+                          className="w-16 h-8 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 text-center"
+                          autoFocus
+                        />
+                        <Button size="sm" onClick={() => handleUpdateCapacity(ward)} className="h-8 rounded-lg px-3">Save</Button>
+                        <Button size="sm" variant="ghost" onClick={() => setManageCapacityWard(null)} className="h-8 rounded-lg px-2">Cancel</Button>
+                      </div>
+                    ) : (
+                      <button 
+                        onClick={() => { setManageCapacityWard(ward); setNewCapacity(wardBeds.length); }}
+                        className="text-slate-400 hover:text-blue-500 transition-colors flex items-center gap-1 font-medium bg-slate-50 dark:bg-slate-800/50 px-3 py-1 rounded-lg"
+                      >
+                        {wardBeds.length} total • Edit
+                      </button>
+                    )}
                   </div>
                 </div>
                 <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
